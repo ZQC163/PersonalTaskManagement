@@ -2,7 +2,10 @@
 <%@ page import="model.Task" %>
 
 <%
+    // Servlet から渡された task オブジェクト
     Task task = (Task) request.getAttribute("task");
+
+    // task が null = 新規登録
     boolean isEdit = (task != null);
 %>
 
@@ -18,22 +21,26 @@
 <form action="task" method="post">
 
     <% if (isEdit) { %>
+        <!-- 更新時は hidden で ID を送る -->
         <input type="hidden" name="id" value="<%= task.getId() %>">
     <% } %>
 
     タイトル：<br>
-    <input type="text" name="title" value="<%= isEdit ? task.getTitle() : "" %>">
+    <input type="text" name="title"
+           value="<%= isEdit ? task.getTitle() : "" %>">
     <br><br>
 
     内容：<br>
-    <textarea name="description" rows="5" cols="40"><%= isEdit ? task.getDescription() : "" %></textarea>
+    <textarea name="description" rows="5" cols="40">
+<%= isEdit ? task.getDescription() : "" %>
+    </textarea>
     <br><br>
 
     状態：<br>
     <select name="status">
-        <option value="todo" <%= isEdit && "todo".equals(task.getStatus()) ? "selected" : "" %>>未着手</option>
-        <option value="doing" <%= isEdit && "doing".equals(task.getStatus()) ? "selected" : "" %>>進行中</option>
-        <option value="done"  <%= isEdit && "done".equals(task.getStatus()) ? "selected" : "" %>>完了</option>
+        <option value="todo"  <%= isEdit && "todo".equals(task.getStatus()) ? "selected" : "" %> >未着手</option>
+        <option value="doing" <%= isEdit && "doing".equals(task.getStatus()) ? "selected" : "" %> >進行中</option>
+        <option value="done"  <%= isEdit && "done".equals(task.getStatus()) ? "selected" : "" %> >完了</option>
     </select>
     <br><br>
 
