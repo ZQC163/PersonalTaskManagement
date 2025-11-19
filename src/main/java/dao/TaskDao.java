@@ -114,7 +114,7 @@ public class TaskDao {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, task.getTitle());
-            ps.setsetString(2, task.getDescription());
+            ps.setString(2, task.getDescription());
             ps.setString(3, task.getStatus());
             ps.setInt(4, task.getId());
 
