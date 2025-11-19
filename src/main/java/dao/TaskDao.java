@@ -8,17 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TaskDao（タスクDAO）
+ * TaskDao（タスク用 DAO）
  *
- * 「task」テーブルに対して CRUD 操作を行うクラス。
- * Controller（Servlet）から呼び出され、DB と直接通信する役割。
+ * task テーブルの CRUD（新規・取得・更新・削除）を担当。
  */
 public class TaskDao {
 
     /**
-     * タスクを全件取得する。
-     *
-     * @return タスク一覧（最新のID順）
+     * 全タスク取得
      */
     public List<Task> findAll() {
 
@@ -36,7 +33,9 @@ public class TaskDao {
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("deadline"),
+                        rs.getString("importance")
                 );
 
                 list.add(t);
@@ -45,13 +44,12 @@ public class TaskDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return list;
     }
 
 
     /**
-     * 指定IDのタスクを取得する
+     * ID 指定で 1 件取得
      */
     public Task findById(int id) {
 
@@ -69,24 +67,25 @@ public class TaskDao {
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("deadline"),
+                        rs.getString("importance")
                 );
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
 
     /**
-     * タスク新規登録
+     * 新規登録
      */
     public void insert(Task task) {
 
-        String sql = "INSERT INTO task(title, description, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO task(title, description, status, deadline, importance) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -94,6 +93,8 @@ public class TaskDao {
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
             ps.setString(3, task.getStatus());
+            ps.setString(4, task.getDeadline());
+            ps.setString(5, task.getImportance());
 
             ps.executeUpdate();
 
@@ -104,11 +105,11 @@ public class TaskDao {
 
 
     /**
-     * タスク更新
+     * 更新
      */
     public void update(Task task) {
 
-        String sql = "UPDATE task SET title = ?, description = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE task SET title=?, description=?, status=?, deadline=?, importance=? WHERE id=?";
 
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -116,7 +117,9 @@ public class TaskDao {
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
             ps.setString(3, task.getStatus());
-            ps.setInt(4, task.getId());
+            ps.setString(4, task.getDeadline());
+            ps.setString(5, task.getImportance());
+            ps.setInt(6, task.getId());
 
             ps.executeUpdate();
 
@@ -127,7 +130,7 @@ public class TaskDao {
 
 
     /**
-     * タスク削除
+     * 削除
      */
     public void delete(int id) {
 
