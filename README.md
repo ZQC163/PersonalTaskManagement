@@ -1,22 +1,44 @@
-データベース構成
-CREATE DATABASE task_db DEFAULT CHARACTER SET utf8mb4;
-USE task_db;
+プロジェクト構成
+src/
+ ├── model/
+ │     └── Task.java
+ ├── dao/
+ │     └── TaskDao.java
+ ├── util/
+ │     └── DbUtil.java
+ └── servlet/
+       └── TaskServlet.java
 
+WebContent/
+ ├── list.jsp
+ └── form.jsp
+WEB-INF/
+ └── web.xml
+
+
+
+データベース構成
 CREATE TABLE task (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(100) NOT NULL,
-  description TEXT,
-  status VARCHAR(20) DEFAULT 'todo'
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    description TEXT,
+    status VARCHAR(20),
+    deadline DATE,
+    importance VARCHAR(10)
 );
-INSERT INTO task (title, description, status) VALUES
-('JavaWebの勉強', 'Servlet・JSP・JDBCの基礎を復習する', 'doing'),
-('週報の作成', '1週間の業務内容をまとめて上司に提出する', 'todo'),
-('ジムトレーニング', 'ランニング30分＋筋トレ20分', 'done'),
-('学習ノートの整理', '今週学んだことをMarkdownにまとめる', 'todo'),
-('タスク管理システムの改善', '検索・ページング機能を追加予定', 'todo'),
-('買い物リスト作成', '今週必要な生活用品をまとめる', 'todo'),
-('技術書の読書', '「Javaパフォーマンス最適化」を読む', 'doing'),
-('面接準備', '企業研究と模擬質問の練習', 'todo');
+
+INSERT INTO task (title, description, status, deadline, importance) VALUES
+('要件定義書の作成', '顧客向けの要件定義書をまとめる', 'doing', '2025-02-10', '高'),
+('デザイン修正', 'トップページUIの修正作業', 'todo', '2025-02-14', '中'),
+('テストケース作成', '新機能に対するテスト項目を作成', 'todo', '2025-02-18', '高'),
+('コードレビュー', 'PR内容を確認しレビューする', 'doing', '2025-02-09', '中'),
+('バグ修正（検索機能）', '検索結果が正しく表示されない問題の修正', 'todo', '2025-02-15', '高'),
+('DBバックアップ', '毎月の定期バックアップを実施', 'done', '2025-02-01', '低'),
+('ミーティング資料作成', '週次MTG資料を準備する', 'doing', '2025-02-12', '中'),
+('ログ監視改善', 'エラーログの分析と改善案提出', 'todo', '2025-02-25', '低'),
+('API仕様書更新', '新規APIの仕様書を更新', 'todo', '2025-02-20', '高'),
+('新機能アイデア出し', '次期バージョンの候補を検討する', 'todo', '2025-02-28', '低');
+
 要件定義
 ● ToDo(タスク管理)アプリ要件
 ○ ToDoを登録できる
