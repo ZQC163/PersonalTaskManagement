@@ -2,7 +2,6 @@
 <%@ page import="java.util.List, model.Task" %>
 
 <%
-    // Servlet から渡されたタスク一覧を取得
     List<Task> list = (List<Task>) request.getAttribute("taskList");
 %>
 
@@ -15,7 +14,6 @@
 
 <h2>タスク一覧</h2>
 
-<!-- 新規画面へ遷移 -->
 <a href="task?action=add">＋ 新規タスク作成</a>
 <br><br>
 
@@ -25,21 +23,23 @@
         <th>タイトル</th>
         <th>内容</th>
         <th>状態</th>
+        <th>締切日</th>
+        <th>重要度</th>
         <th>操作</th>
     </tr>
 
-    <% if (list != null)
-       for (Task t : list) { %>
+    <% if (list != null) for (Task t : list) { %>
 
     <tr>
         <td><%= t.getId() %></td>
         <td><%= t.getTitle() %></td>
         <td><%= t.getDescription() %></td>
         <td><%= t.getStatus() %></td>
+        <td><%= t.getDeadline() %></td>
+        <td><%= t.getImportance() %></td>
 
         <td>
             <a href="task?action=edit&id=<%= t.getId() %>">編集</a>
-
             <a href="task?action=delete&id=<%= t.getId() %>"
                onclick="return confirm('本当に削除しますか？');">
                 削除
