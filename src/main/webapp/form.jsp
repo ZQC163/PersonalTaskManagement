@@ -1,55 +1,54 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.List, model.Task" %>
+<%@ page import="model.Task" %>
 
 <%
-    List<Task> list = (List<Task>) request.getAttribute("taskList");
+    Task task = (Task) request.getAttribute("task");
+    boolean isEdit = (task != null);
 %>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>タスク一覧</title>
+    <title><%= isEdit ? "タスク編集" : "新規タスク作成" %></title>
 </head>
 <body>
 
-<h2>タスク一覧</h2>
+<h2><%= isEdit ? "タスク編集" : "新規タスク作成" %></h2>
 
-<a href="task?action=add">＋ 新規タスク作成</a>
-<br><br>
+<form action="task" method="post">
 
-<table border="1" cellpadding="6">
-    <tr>
-        <th>ID</th>
-        <th>タイトル</th>
-        <th>内容</th>
-        <th>状態</th>
-        <th>締切日</th>
-        <th>重要度</th>
-        <th>操作</th>
-    </tr>
-
-    <% if (list != null) for (Task t : list) { %>
-
-    <tr>
-        <td><%= t.getId() %></td>
-        <td><%= t.getTitle() %></td>
-        <td><%= t.getDescription() %></td>
-        <td><%= t.getStatus() %></td>
-        <td><%= t.getDeadline() %></td>
-        <td><%= t.getImportance() %></td>
-
-        <td>
-            <a href="task?action=edit&id=<%= t.getId() %>">編集</a>
-            <a href="task?action=delete&id=<%= t.getId() %>"
-               onclick="return confirm('本当に削除しますか？');">
-                削除
-            </a>
-        </td>
-    </tr>
-
+    <% if (isEdit) { %>
+        <input type="hidden" name="id" value="<%= task.getId() %>">
     <% } %>
 
-</table>
+    タイトル：<br>
+    <input type="text" name="title" value="<%= isEdit ? task.getTitle() : "" %>"><br><br>
+
+    内容：<br>
+    <textarea name="description" rows="5" cols="40"><%= isEdit ? task.getDescription() : "" %></textarea><br><br>
+
+    状態：<br>
+    <select name="status">
+        <option value="todo"  <%= isEdit && "todo".equals(task.getStatus()) ? "selected" : "" %>>未着手</option>
+        <option value="doing" <%= isEdit && "doing".equals(task.getStatus()) ? "selected" : "" %>>進行中</option>
+        <option value="done"  <%= isEdit && "done".equals(task.getStatus()) ? "selected" : "" %>>完了</option>
+    </select><br><br>
+
+    締切日（YYYY-MM-DD）：<br>
+    <input type="date" name="deadline" value="<%= isEdit ? task.getDeadline() : "" %>"><br><br>
+
+    重要度：<br>
+    <select name="importance">
+        <option value="高" <%= isEdit && "高".equals(task.getImportance()) ? "selected" : "" %>>高</option>
+        <option value="中" <%= isEdit && "中".equals(task.getImportance()) ? "selected" : "" %>>中</option>
+        <option value="低" <%= isEdit && "低".equals(task.getImportance()) ? "selected" : "" %>>低</option>
+    </select><br><br>
+
+    <input type="submit" value="保存">
+    <a href="task?action=list">戻る</a>
+
+</form>
 
 </body>
 </html>
+
