@@ -11,14 +11,14 @@ import java.sql.DriverManager;
  */
 public class DbUtil {
 
-    /** 接続URL（ポートやDB名は自分の環境に合わせる） */
+    /** 接続URL */
     private static final String URL =
             "jdbc:mysql://localhost:3306/task_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
 
-    /** DBユーザー名（自分の MySQL の設定に合わせる） */
+    /** DBユーザー名 */
     private static final String USER = "root";
 
-    /** DBパスワード（自分の MySQL の設定に合わせる） */
+    /** DBパスワード */
     private static final String PASSWORD = "root";
 
 
