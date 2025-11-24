@@ -3,20 +3,32 @@ package util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * DB 接続ユーティリティクラス
+ *
+ * DAO から呼び出して、MySQL への Connection を取得する。
+ */
 public class DbUtil {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/task_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
-    private static final String USER = "root";     
-    private static final String PASSWORD = "Zqc@84582658"; // 修改为你的
+    // 自分の環境に合わせて調整すること
+    private static final String URL =
+            "jdbc:mysql://localhost:3306/task_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
+    private static final String USER = "root";
+    private static final String PASSWORD = "Zqc@84582658";
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 8.x 驱动
+            // JDBC ドライバ読み込み
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("MySQL JDBC ドライバ読み込み成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * DB 接続を取得するメソッド
+     */
     public static Connection getConnection() throws Exception {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
