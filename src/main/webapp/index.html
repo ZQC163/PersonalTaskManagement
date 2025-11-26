@@ -8,8 +8,33 @@
 
 <h2>個人タスク管理システム</h2>
 
+<!--
+  【このページ(index.html)を作成した理由】
+
+  1. プロジェクトの入口として「最初に表示される画面」を明確にするため。
+     - 直接 login.jsp を見せるより、トップページを設けた方が
+       アプリの全体構成が整理される。
+
+  2. URL を常に /login で統一するため。
+     - 認証やエラーメッセージの処理はすべて LoginServletで行うため、
+       JSP を直接叩かせない設計（MVCの基本）。
+
+  3. index.html の役割はあくまで UI の入口のみ。
+     - DB アクセスなどは一切しない。
+     - 他のページへの導線を提供するだけに留める。
+-->
+
 <p>ログイン画面へ進んでください。</p>
 
+<!--
+  【なぜ login.jsp ではなく /login にリンクしているのか？】
+
+  - /login は LoginServlet の URL パターン。
+  - LoginServlet#doGet() が login.jsp を forward する仕組み。
+
+  → 必ず Servlet（Controller）を経由させ、
+     JSP（View）へ直接リクエストさせないのが MVC の基本。
+-->
 <a href="login">ログイン</a>
 
 </body>
