@@ -32,6 +32,7 @@ INSERT INTO task (title, description, status, deadline, importance, user_id)
 VALUES 
 ('資料作成', '会議用の資料を作成する', '未着手', '2025-12-01', '高', 1),
 ('メール対応', '顧客メールに返信する', '進行中', '2025-12-05', '中', 1);
+
 CREATE TABLE task_simple (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255),
