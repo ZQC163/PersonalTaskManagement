@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS task_db;
+CREATE DATABASE  task_db;
 USE task_db;
 
 -- ユーザーテーブル
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE  user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
