@@ -25,26 +25,30 @@ public class TaskEditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+      
         HttpSession session = request.getSession(false);
-        User loginUser = (session != null) ? (User) session.getAttribute("loginUser") : null;
-
-        if (loginUser == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+        if (session == null || session.getAttribute("loginUser") == null) {
+            response.sendRedirect("/PersonalTaskManagement/login");
             return;
         }
 
+        User loginUser = (User) session.getAttribute("loginUser");
+        int userId = loginUser.getId();
+
         int id = Integer.parseInt(request.getParameter("id"));
 
-        TaskDao taskDao = new TaskDao();
-        Task task = taskDao.findById(id);
+        TaskDao dao = new TaskDao();
+        Task task = dao.findByIdAndUserId(id, userId);
 
-        if (task == null || task.getUserId() != loginUser.getId()) {
-            response.sendRedirect(request.getContextPath() + "/task/list");
+        if (task == null) {
+            response.sendRedirect("/PersonalTaskManagement/task/list");
             return;
         }
 
         request.setAttribute("task", task);
-        request.getRequestDispatcher("/task_edit.jsp").forward(request, response);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/task_edit.jsp");
+        rd.forward(request, response);
     }
 
     // 更新処理
